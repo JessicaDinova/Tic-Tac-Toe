@@ -7,8 +7,7 @@ public class Player {
     private Command command;
     private char symbol;
 
-    Player(Command command, char symbol){
-        this.command = command;
+    public Player(char symbol){        
         this.symbol = symbol;
     }
 
