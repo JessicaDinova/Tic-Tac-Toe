@@ -1,9 +1,9 @@
 package Composite_Dinova;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class GameBoard implements BoardComponent {
-    private List<BoardComponent> gameCells;
+    private ArrayList<BoardComponent> gameCells = new ArrayList<BoardComponent>();
 
     public GameBoard(int size) {
         for (int i = 0; i < size; i++) {
@@ -17,12 +17,12 @@ public class GameBoard implements BoardComponent {
 
     @Override
     public void display() {
+        System.out.println(" ---  ---  ---");
         for (int i = 0; i < gameCells.size(); i++) {
+            //((GameCell) gameCells.get(i)).setCellValue('x');
             ((GameCell) gameCells.get(i)).display();
-            if ((i + 1) % 3 == 0) {
-                System.out.println("\n");
-            } else {
-                System.out.println("|");
+            if ((i + 1) % 3 == 0 && (i < gameCells.size())) {
+                System.out.println("\n ---  ---  ---");
             }
         }
     }

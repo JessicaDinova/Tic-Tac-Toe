@@ -1,7 +1,11 @@
 package Composite_Dinova;
 
 public class GameCell implements BoardComponent {
-    private char cellValue;
+    private char cellValue = ' ';
+
+    public GameCell() {
+
+    }
 
     public void setCellValue(char value) {
         this.cellValue = value;
@@ -9,6 +13,6 @@ public class GameCell implements BoardComponent {
 
     @Override
     public void display() {
-        System.out.println(" " + this.cellValue + " ");
+       System.out.print("| " + this.cellValue + " |");
     }    
 }
