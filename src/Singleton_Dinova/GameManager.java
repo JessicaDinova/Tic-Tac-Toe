@@ -7,7 +7,7 @@ public class GameManager {
     private GameBoard gameBoard;
 
     private GameManager() {
-        gameBoard = new GameBoard(3);
+        gameBoard = new GameBoard(9);
     }
 
   public static GameManager getGameInstance() {
