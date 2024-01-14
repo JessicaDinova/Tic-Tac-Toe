@@ -1,5 +1,4 @@
-import Composite_Dinova.GameBoard;
-import Singleton_Dinova.GameManager;
+import GameLoop_Dinova.GameLoop;
 
 /**
  * Main
@@ -7,16 +6,7 @@ import Singleton_Dinova.GameManager;
 public class Main {
 
     public static void main(String[] args) {
-        runGame();
-    }
-
-    public static void runGame() {
-        GameManager gameManager;// = GameManager.getGameInstance();
-        try (gameManager = GameManager.getGameInstance()) {
-            GameBoard gameBoard = gameManager.getGameBoard();
-            gameBoard.display();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+      GameLoop gameLoop = new GameLoop();
+      gameLoop.runGame();
     }
 }
