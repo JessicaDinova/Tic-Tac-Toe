@@ -1,5 +1,7 @@
 package GameLoop_Dinova;
 
+import java.util.Scanner;
+
 import Command_Potocnak.Player;
 import Composite_Dinova.GameBoard;
 import Factory_Potocnak.PlayerOFactory;
@@ -10,8 +12,8 @@ public class GameLoop {
     private GameManager gameManager;
     private GameBoard gameBoard;
 
-    private PlayerOFactory playerOFactory;
-    private PlayerXFactory playerXFactory;
+    private PlayerOFactory playerOFactory = new PlayerOFactory();
+    private PlayerXFactory playerXFactory = new PlayerXFactory();
 
     private Player playerO;
     private Player playerX;
@@ -24,5 +26,11 @@ public class GameLoop {
 
         this.playerO = playerOFactory.createPlayer();
         this.playerX = playerXFactory.createPlayer();
+
+        Scanner input = new Scanner(System.in);
+    
+        
+    
+        input.close();
     }
 }
