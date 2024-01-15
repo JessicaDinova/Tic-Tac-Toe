@@ -2,6 +2,7 @@ package GameLoop_Dinova;
 
 import java.util.Scanner;
 
+import Command_Potocnak.MoveCommand;
 import Command_Potocnak.Player;
 import Composite_Dinova.GameBoard;
 import Factory_Potocnak.PlayerOFactory;
@@ -15,31 +16,14 @@ public class GameLoop {
     private GameManager gameManager;
     private GameBoard gameBoard;
 
-    private PlayerOFactory playerOFactory = new PlayerOFactory();
-    private PlayerXFactory playerXFactory = new PlayerXFactory();
-
-    private Player playerO;
-    private Player playerX;
-
     private GameObserver turnObserver;
     private GameObserver gameEndObserver;
 
-    private Player pickStartingPlayer() {
-        this.playerO = playerOFactory.createPlayer();
-        this.playerX = playerXFactory.createPlayer();
-        long startingPlayerIndex = Math.round(Math.random());
-        if (startingPlayerIndex == 0) {
-            return playerO;
-        }
-        return playerX;
-    }
-
-    public void setUpGame() {
+    private void setUpGame() {
         this.gameManager = GameManager.getGameInstance();
         this.gameBoard = gameManager.getGameBoard();
-        this.gameBoard.setCurrentPlayer(pickStartingPlayer());
 
-        this.turnObserver = new PlayerTurnObserver(this.gameBoard.getCurrentPlayer());
+        this.turnObserver = new PlayerTurnObserver(this.gameManager.getCurrentPlayer());
         this.gameEndObserver = new GameEndObserver();
 
         gameManager.addObserver(turnObserver);
@@ -48,12 +32,19 @@ public class GameLoop {
 
     public void runGame() {
         setUpGame();
-        // loop
-        gameManager.notifyObservers();
-
-        this.gameBoard.display();
+        int i = 0;
         Scanner input = new Scanner(System.in);
+        while (i<9) {
+            this.gameManager.notifyObservers();
+            this.gameBoard.display();
+            
+            int playerInput = input.nextInt();
+            this.gameManager.getCurrentPlayer().setComand(new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
+            this.gameManager.getCurrentPlayer().makeMove();
+            this.gameManager.switchPlayer();
 
+            i++;
+        }
         input.close();
     }
 }

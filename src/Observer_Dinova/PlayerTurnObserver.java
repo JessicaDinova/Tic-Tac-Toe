@@ -13,5 +13,10 @@ public class PlayerTurnObserver implements GameObserver {
     public void update() {
         System.out.println("Player" + currentPlayer.getPlayerSymbol() + "'s turn");
     }
+
+    @Override
+    public void update(Player player) {
+        this.currentPlayer = player;
+    }
     
 }

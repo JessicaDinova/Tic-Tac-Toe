@@ -18,7 +18,7 @@ public class MoveCommand implements Command{
 
     @Override
     public void execute() {
-        gameBoard.setCellValue(index, playerSymbol);
+        gameBoard.setCellValue(index-1, playerSymbol);
     }
     
 }
