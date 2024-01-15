@@ -1,7 +1,5 @@
 package Command_Potocnak;
 
-import Composite_Dinova.GameBoard;
-
 //invoker 
 public class Player {
     private Command command;
@@ -17,5 +15,9 @@ public class Player {
 
     public void makeMove() {
         this.command.execute();
+    }
+
+    public char getPlayerSymbol() {
+        return this.symbol;
     }
 }

@@ -1,9 +1,11 @@
 package Composite_Dinova;
 
 import java.util.ArrayList;
+import Command_Potocnak.Player;
 
 public class GameBoard implements BoardComponent {
     private ArrayList<BoardComponent> gameCells = new ArrayList<BoardComponent>();
+    private Player currentPlayer;
 
     public GameBoard(int size) {
         for (int i = 0; i < size; i++) {
@@ -13,6 +15,15 @@ public class GameBoard implements BoardComponent {
 
     public void setCellValue(int index, char value) {
        ((GameCell) gameCells.get(index)).setCellValue(value);
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player setPlayer) {
+        this.currentPlayer = setPlayer;
+        System.out.println("current player" + this.currentPlayer.getPlayerSymbol());
     }
 
     @Override
