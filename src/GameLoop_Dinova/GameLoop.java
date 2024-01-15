@@ -3,10 +3,7 @@ package GameLoop_Dinova;
 import java.util.Scanner;
 
 import Command_Potocnak.MoveCommand;
-import Command_Potocnak.Player;
 import Composite_Dinova.GameBoard;
-import Factory_Potocnak.PlayerOFactory;
-import Factory_Potocnak.PlayerXFactory;
 import Observer_Dinova.GameEndObserver;
 import Observer_Dinova.GameObserver;
 import Observer_Dinova.PlayerTurnObserver;
