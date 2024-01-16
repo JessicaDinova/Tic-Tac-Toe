@@ -9,14 +9,13 @@ public class PlayerTurnObserver implements GameObserver {
         this.currentPlayer = currentPlayer;
     }
 
+    
     @Override
-    public void update() {
-        System.out.println("Player" + currentPlayer.getPlayerSymbol() + "'s turn");
-    }
-
-    @Override
-    public void update(Player player) {
-        this.currentPlayer = player;
+    public void update(boolean hasGameEnded, Player player) {
+        if (!hasGameEnded) {
+            this.currentPlayer = player;
+            System.out.println("Player" + this.currentPlayer.getPlayerSymbol() + " 's turn");
+        }
     }
     
 }

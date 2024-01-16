@@ -6,6 +6,7 @@ import Command_Potocnak.Player;
 import Composite_Dinova.GameBoard;
 import Factory_Potocnak.PlayerOFactory;
 import Factory_Potocnak.PlayerXFactory;
+import Observer_Dinova.GameEndObserver;
 import Observer_Dinova.GameObserver;
 
 public class GameManager {
@@ -21,7 +22,8 @@ public class GameManager {
     private Player playerO;
     private Player playerX;
 
-    private Player winningPlayer = null;
+    private Player winningPlayer;
+    private boolean isGameOver = false;
 
     private GameManager() {
         pickStartingPlayer();
@@ -49,13 +51,16 @@ public class GameManager {
 
     public void notifyObservers() {
         for (GameObserver observer : observers) {
-            observer.update(currentPlayer);
-            observer.update();
+            if (observer instanceof GameEndObserver) {
+                observer.update(isGameOver, winningPlayer);
+            }
+            observer.update(isGameOver, currentPlayer);
         }
     }
 
     public void switchPlayer() {
         this.currentPlayer = (currentPlayer.getPlayerSymbol() == 'X') ? playerO : playerX;
+        notifyObservers();
     }
 
     public Player getCurrentPlayer() {
@@ -78,20 +83,21 @@ public class GameManager {
     }
 
     public boolean hasGameEnded(int numberOfRound) {
-        if(this.playerO.hasWon()) {
-            this.winningPlayer = this.playerO;
+        this.isGameOver = true;
+        if (this.playerO.hasWon()) {
+            this.winningPlayer = playerO;
             return true;
-        }
-        else if(this.playerX.hasWon()) {
-            this.winningPlayer = this.playerX;
+        } else if (this.playerX.hasWon()) {
+            this.winningPlayer = playerX;
             return true;
-        }
-        else if(numberOfRound >= 9) {
+        } else if (numberOfRound >= 9) {
+            this.winningPlayer = null;
             return true;
-        }
-        else {
+        } else {
+            this.isGameOver = false;
             return false;
         }
+
     }
 
     public boolean canMakeMove(int index) {

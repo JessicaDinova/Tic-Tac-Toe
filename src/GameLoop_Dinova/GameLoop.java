@@ -33,23 +33,25 @@ public class GameLoop {
         Scanner input = new Scanner(System.in);
         int round = 0;
         boolean endGame = false;
-        this.gameManager.notifyObservers();
+       // this.gameManager.notifyObservers();
         while (!endGame) {
             this.gameBoard.display();
             int playerInput;
-
+            
             try {
                 playerInput = input.nextInt();
                 this.gameManager.getCurrentPlayer().setComand(
-                        new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
-
-                if (gameManager.canMakeMove(playerInput) && !endGame) {
-                    this.gameManager.getCurrentPlayer().makeMove(playerInput);
-                    this.gameManager.switchPlayer();
-                    this.gameManager.notifyObservers();
-                    round++;
-                }
-            } catch (InputMismatchException  | IndexOutOfBoundsException e) {
+                    new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
+                    if (gameManager.canMakeMove(playerInput)  ) {
+                        this.gameManager.getCurrentPlayer().makeMove(playerInput);
+                        round++;
+                        endGame = gameManager.hasGameEnded(round);
+                        if (!endGame) {
+                            this.gameManager.switchPlayer();
+                        }
+                    }
+                    
+                } catch (InputMismatchException  | IndexOutOfBoundsException e) {
                 if(e instanceof InputMismatchException){
                     System.out.println("Wrong input! You can only input numbers!");
                     input.next();
@@ -57,13 +59,13 @@ public class GameLoop {
                 else if(e instanceof IndexOutOfBoundsException){
                     System.out.println("Wrong input! You can only input numbers between 1 and 9!");    
                 }
+                this.gameManager.notifyObservers();
             } 
-            endGame = gameManager.hasGameEnded(round);
         }
-
         this.gameManager.notifyObservers();
+        //System.out.print("\033[H\033[2J");
         this.gameBoard.display();
-
+        // tie: 1, 2, 3, 6, 4, 9, 5, 7, 8
         input.close();
     }
 }
