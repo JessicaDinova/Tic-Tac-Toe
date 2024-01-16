@@ -1,5 +1,5 @@
 package Command_Potocnak;
 
 public interface Command {
-    public boolean execute();
+    public void execute();
 }

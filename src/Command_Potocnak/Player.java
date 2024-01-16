@@ -39,11 +39,11 @@ public class Player {
      * @param index where to place the player icon
      * @return true if move is valid false if move is not valid
      */
-    public boolean makeMove(int index) {
+    public void makeMove(int index) {
         this.playedMoves.add(index);
         Collections.sort(playedMoves);
         System.out.println(this.symbol + "" + playedMoves);
-        return this.command.execute();
+        this.command.execute();
     }
 
     public char getPlayerSymbol() {

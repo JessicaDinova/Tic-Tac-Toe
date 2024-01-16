@@ -42,9 +42,8 @@ public class GameLoop {
                 this.gameManager.getCurrentPlayer().setComand(new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
 
             if (gameManager.canMakeMove(playerInput)) {
-                if (this.gameManager.getCurrentPlayer().makeMove(playerInput)) {
-                    this.gameManager.switchPlayer();
-                }
+                this.gameManager.getCurrentPlayer().makeMove(playerInput);
+                this.gameManager.switchPlayer();
             }
             } catch (InputMismatchException e) {
                 System.out.println("Wrong input! You can only input numbers!");
