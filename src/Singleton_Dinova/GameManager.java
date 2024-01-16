@@ -10,7 +10,7 @@ import Observer_Dinova.GameObserver;
 
 public class GameManager {
     private static GameManager gameInstance;
-    
+
     private GameBoard gameBoard;
     private ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
     private Player currentPlayer;
@@ -26,7 +26,7 @@ public class GameManager {
         gameBoard = new GameBoard(9);
     }
 
-  public static GameManager getGameInstance() {
+    public static GameManager getGameInstance() {
         if (gameInstance == null) {
             gameInstance = new GameManager();
         }
@@ -75,8 +75,8 @@ public class GameManager {
         }
     }
 
-    public boolean hasGameEnded() {
-        return (this.playerO.hasWon() || this.playerX.hasWon());
+    public boolean hasGameEnded(int numberOfRound) {
+        return (this.playerO.hasWon() || this.playerX.hasWon() || numberOfRound >= 9);
     }
 
     public boolean canMakeMove(int index) {
