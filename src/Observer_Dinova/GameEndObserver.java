@@ -11,7 +11,7 @@ public class GameEndObserver implements GameObserver {
 
     @Override
     public void update(Player player) {
-
+        System.out.println("Player" + player.getPlayerSymbol() + "has WON GG");
     }
     
 }

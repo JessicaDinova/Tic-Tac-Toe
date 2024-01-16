@@ -42,7 +42,6 @@ public class Player {
     public void makeMove(int index) {
         this.playedMoves.add(index);
         Collections.sort(playedMoves);
-        System.out.println(this.symbol + "" + playedMoves);
         this.command.execute();
     }
 

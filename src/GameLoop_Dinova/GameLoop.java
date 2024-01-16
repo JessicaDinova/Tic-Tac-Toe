@@ -33,24 +33,31 @@ public class GameLoop {
         Scanner input = new Scanner(System.in);
         int round = 0;
         boolean endGame = false;
+        this.gameManager.notifyObservers();
         while (!endGame) {
-            this.gameManager.notifyObservers();
             this.gameBoard.display();
             int playerInput;
 
             try {
                 playerInput = input.nextInt();
-                this.gameManager.getCurrentPlayer().setComand(new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
+                this.gameManager.getCurrentPlayer().setComand(
+                        new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
 
-            if (gameManager.canMakeMove(playerInput)) {
-                this.gameManager.getCurrentPlayer().makeMove(playerInput);
-                this.gameManager.switchPlayer();
-            }
-            } catch (InputMismatchException e) {
-                System.out.println("Wrong input! You can only input numbers!");
-                input.next();
-            }
-            round ++;
+                if (gameManager.canMakeMove(playerInput) && !endGame) {
+                    this.gameManager.getCurrentPlayer().makeMove(playerInput);
+                    this.gameManager.switchPlayer();
+                    this.gameManager.notifyObservers();
+                    round++;
+                }
+            } catch (InputMismatchException  | IndexOutOfBoundsException e) {
+                if(e instanceof InputMismatchException){
+                    System.out.println("Wrong input! You can only input numbers!");
+                    input.next();
+                }
+                else if(e instanceof IndexOutOfBoundsException){
+                    System.out.println("Wrong input! You can only input numbers between 1 and 9!");    
+                }
+            } 
             endGame = gameManager.hasGameEnded(round);
         }
 

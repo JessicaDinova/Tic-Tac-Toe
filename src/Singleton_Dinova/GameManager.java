@@ -21,6 +21,8 @@ public class GameManager {
     private Player playerO;
     private Player playerX;
 
+    private Player winningPlayer = null;
+
     private GameManager() {
         pickStartingPlayer();
         gameBoard = new GameBoard(9);
@@ -76,7 +78,20 @@ public class GameManager {
     }
 
     public boolean hasGameEnded(int numberOfRound) {
-        return (this.playerO.hasWon() || this.playerX.hasWon() || numberOfRound >= 9);
+        if(this.playerO.hasWon()) {
+            this.winningPlayer = this.playerO;
+            return true;
+        }
+        else if(this.playerX.hasWon()) {
+            this.winningPlayer = this.playerX;
+            return true;
+        }
+        else if(numberOfRound >= 9) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public boolean canMakeMove(int index) {
