@@ -36,21 +36,26 @@ public class GameLoop {
             this.gameManager.notifyObservers();
             this.gameBoard.display();
             int playerInput;
+
             try {
                 playerInput = input.nextInt();
-                this.gameManager.getCurrentPlayer().setComand(
-                        new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
+                this.gameManager.getCurrentPlayer().setComand(new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
 
+            if (gameManager.canMakeMove(playerInput)) {
                 if (this.gameManager.getCurrentPlayer().makeMove(playerInput)) {
                     this.gameManager.switchPlayer();
                 }
+            }
             } catch (InputMismatchException e) {
                 System.out.println("Wrong input! You can only input numbers!");
                 input.next();
             }
-
-            endGame = this.gameManager.hasGameEnded();
+            endGame = gameManager.hasGameEnded();
         }
+
+        this.gameManager.notifyObservers();
+        this.gameBoard.display();
+
         input.close();
     }
 }

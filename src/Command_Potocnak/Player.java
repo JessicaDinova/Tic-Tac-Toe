@@ -11,30 +11,31 @@ public class Player {
     private ArrayList<Integer> playedMoves = new ArrayList<Integer>();
     private ArrayList<ArrayList<Integer>> winningCombinations = new ArrayList<ArrayList<Integer>>();
 
-    public Player(char symbol){        
+    public Player(char symbol) {
         this.symbol = symbol;
 
-        //Horizontal winnings
+        // Horizontal winnings
         winningCombinations.add(new ArrayList<>(Arrays.asList(1, 2, 3)));
         winningCombinations.add(new ArrayList<>(Arrays.asList(4, 5, 6)));
         winningCombinations.add(new ArrayList<>(Arrays.asList(7, 8, 9)));
 
-        //Vertical winnigs
+        // Vertical winnigs
         winningCombinations.add(new ArrayList<>(Arrays.asList(1, 4, 7)));
         winningCombinations.add(new ArrayList<>(Arrays.asList(2, 5, 8)));
         winningCombinations.add(new ArrayList<>(Arrays.asList(3, 6, 9)));
-        
-        //Diagonal winnings
+
+        // Diagonal winnings
         winningCombinations.add(new ArrayList<>(Arrays.asList(1, 5, 9)));
         winningCombinations.add(new ArrayList<>(Arrays.asList(3, 5, 7)));
     }
 
-    public void setComand(Command comand){
+    public void setComand(Command comand) {
         this.command = comand;
     }
 
     /**
      * Executes palyer movement
+     * 
      * @param index where to place the player icon
      * @return true if move is valid false if move is not valid
      */
@@ -50,11 +51,11 @@ public class Player {
     }
 
     public boolean hasWon() {
-    for (ArrayList<Integer> combination : winningCombinations) {
-        if (playedMoves.containsAll(combination)) {
-            return true;
+        for (ArrayList<Integer> combination : winningCombinations) {
+            if (playedMoves.containsAll(combination)) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
 }

@@ -21,6 +21,7 @@ public class GameBoard implements BoardComponent {
     public void addPlayedMove(int index) {
         this.allPlayedMoves.add(index);
         Collections.sort(allPlayedMoves);
+        System.out.println(allPlayedMoves);
     }
 
     public ArrayList<Integer> getPlayedMoves() {

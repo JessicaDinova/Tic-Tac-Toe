@@ -79,4 +79,10 @@ public class GameManager {
         return (this.playerO.hasWon() || this.playerX.hasWon());
     }
 
+    public boolean canMakeMove(int index) {
+        if (gameBoard.getPlayedMoves().contains(index)) {
+            return false;
+        }
+        return true;
+    }
 }
