@@ -33,7 +33,7 @@ public class GameLoop {
         Scanner input = new Scanner(System.in);
         int round = 0;
         boolean endGame = false;
-       // this.gameManager.notifyObservers();
+       this.gameManager.notifyObservers();
         while (!endGame) {
             this.gameBoard.display();
             int playerInput;
@@ -62,8 +62,6 @@ public class GameLoop {
                 this.gameManager.notifyObservers();
             } 
         }
-        this.gameManager.notifyObservers();
-        //System.out.print("\033[H\033[2J");
         this.gameBoard.display();
         // tie: 1, 2, 3, 6, 4, 9, 5, 7, 8
         input.close();

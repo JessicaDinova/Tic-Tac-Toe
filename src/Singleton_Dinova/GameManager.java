@@ -8,6 +8,8 @@ import Factory_Potocnak.PlayerOFactory;
 import Factory_Potocnak.PlayerXFactory;
 import Observer_Dinova.GameEndObserver;
 import Observer_Dinova.GameObserver;
+import Observer_Dinova.PlayerTurnObserver;
+
 
 public class GameManager {
     private static GameManager gameInstance;
@@ -54,7 +56,9 @@ public class GameManager {
             if (observer instanceof GameEndObserver) {
                 observer.update(isGameOver, winningPlayer);
             }
-            observer.update(isGameOver, currentPlayer);
+            else if(observer instanceof PlayerTurnObserver){
+                observer.update(isGameOver, currentPlayer);
+            }
         }
     }
 
@@ -86,12 +90,15 @@ public class GameManager {
         this.isGameOver = true;
         if (this.playerO.hasWon()) {
             this.winningPlayer = playerO;
+            notifyObservers();
             return true;
         } else if (this.playerX.hasWon()) {
             this.winningPlayer = playerX;
+            notifyObservers();
             return true;
         } else if (numberOfRound >= 9) {
             this.winningPlayer = null;
+            notifyObservers();
             return true;
         } else {
             this.isGameOver = false;
