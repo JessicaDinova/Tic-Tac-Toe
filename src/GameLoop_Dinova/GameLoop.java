@@ -31,7 +31,8 @@ public class GameLoop {
     public void runGame() {
         setUpGame();
         Scanner input = new Scanner(System.in);
-        while (!this.gameManager.hasGameEnded()) {
+        boolean endGame = false;
+        while (!endGame) {
             this.gameManager.notifyObservers();
             this.gameBoard.display();
             int playerInput;
@@ -47,6 +48,8 @@ public class GameLoop {
                 System.out.println("Wrong input! You can only input numbers!");
                 input.next();
             }
+
+            endGame = this.gameManager.hasGameEnded();
         }
         input.close();
     }

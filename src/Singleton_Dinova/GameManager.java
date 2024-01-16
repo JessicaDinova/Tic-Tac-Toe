@@ -69,13 +69,14 @@ public class GameManager {
         this.playerX = playerXFactory.createPlayer();
         long startingPlayerIndex = Math.round(Math.random());
         if (startingPlayerIndex == 0) {
-            this.currentPlayer = playerOFactory.createPlayer();
+            this.currentPlayer = this.playerO;
+        } else {
+            this.currentPlayer = this.playerX;
         }
-        this.currentPlayer = playerXFactory.createPlayer();
     }
 
     public boolean hasGameEnded() {
-        return this.playerO.hasWon() || this.playerX.hasWon();
+        return (this.playerO.hasWon() || this.playerX.hasWon());
     }
 
 }

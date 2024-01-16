@@ -41,6 +41,7 @@ public class Player {
     public boolean makeMove(int index) {
         this.playedMoves.add(index);
         Collections.sort(playedMoves);
+        System.out.println(this.symbol + "" + playedMoves);
         return this.command.execute();
     }
 
