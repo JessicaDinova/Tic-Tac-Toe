@@ -54,8 +54,6 @@ public class GameManager {
 
     public void switchPlayer() {
         this.currentPlayer = (currentPlayer.getPlayerSymbol() == 'X') ? playerO : playerX;
-        System.out.println("players switched");
-        System.out.println(this.currentPlayer.getPlayerSymbol());
     }
 
     public Player getCurrentPlayer() {
@@ -64,7 +62,6 @@ public class GameManager {
 
     public void setCurrentPlayer(Player setPlayer) {
         this.currentPlayer = setPlayer;
-        System.out.println("current player" + this.currentPlayer.getPlayerSymbol());
     }
 
     private void pickStartingPlayer() {

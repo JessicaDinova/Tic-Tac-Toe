@@ -14,7 +14,6 @@ public class Player {
     }
 
     public void makeMove() {
-        System.out.println("Player" + this.symbol + "is making move");
         this.command.execute();
     }
 

@@ -20,7 +20,6 @@ public class GameBoard implements BoardComponent {
     public void display() {
         System.out.println(" ---  ---  ---\t\t ---  ---  ---");
         for (int i = 0; i < gameCells.size(); i++) {
-            //((GameCell) gameCells.get(i)).setCellValue('x');
             ((GameCell) gameCells.get(i)).display();
             if ((i + 1) % 3 == 0 && (i < gameCells.size())) {
                 System.out.print("\t\t| " + (i-1) + " || " + i + " || " + (i+1) + " |");

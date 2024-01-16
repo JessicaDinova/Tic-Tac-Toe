@@ -32,6 +32,7 @@ public class GameLoop {
         int i = 0;
         Scanner input = new Scanner(System.in);
         while (i<9) {
+            i++;
             this.gameManager.notifyObservers();
             this.gameBoard.display();
             
@@ -40,7 +41,6 @@ public class GameLoop {
             this.gameManager.getCurrentPlayer().makeMove();
             this.gameManager.switchPlayer();
 
-            i++;
         }
         input.close();
     }
