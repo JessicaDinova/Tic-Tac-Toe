@@ -1,5 +1,6 @@
 package GameLoop_Dinova;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Command_Potocnak.MoveCommand;
@@ -29,18 +30,23 @@ public class GameLoop {
 
     public void runGame() {
         setUpGame();
-        int i = 0;
         Scanner input = new Scanner(System.in);
-        while (i<9) {
-            i++;
+        while (!this.gameManager.hasGameEnded()) {
             this.gameManager.notifyObservers();
             this.gameBoard.display();
-            
-            int playerInput = input.nextInt();
-            this.gameManager.getCurrentPlayer().setComand(new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
-            this.gameManager.getCurrentPlayer().makeMove();
-            this.gameManager.switchPlayer();
+            int playerInput;
+            try {
+                playerInput = input.nextInt();
+                this.gameManager.getCurrentPlayer().setComand(
+                        new MoveCommand(this.gameBoard, playerInput, gameManager.getCurrentPlayer().getPlayerSymbol()));
 
+                if (this.gameManager.getCurrentPlayer().makeMove(playerInput)) {
+                    this.gameManager.switchPlayer();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong input! You can only input numbers!");
+                input.next();
+            }
         }
         input.close();
     }

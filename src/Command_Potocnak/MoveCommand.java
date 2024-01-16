@@ -15,10 +15,15 @@ public class MoveCommand implements Command{
         this.index = index;
         this.playerSymbol = playerSymbol;
     }
-
+    
     @Override
-    public void execute() {
-        gameBoard.setCellValue(index-1, playerSymbol);
+    public boolean execute() {
+        if (!gameBoard.getPlayedMoves().contains(index)) {
+            this.gameBoard.addPlayedMove(index);
+            gameBoard.setCellValue(index-1, playerSymbol);
+            return true;
+        }
+        return false;
     }
     
 }

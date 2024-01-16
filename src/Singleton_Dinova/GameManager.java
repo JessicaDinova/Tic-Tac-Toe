@@ -73,4 +73,9 @@ public class GameManager {
         }
         this.currentPlayer = playerXFactory.createPlayer();
     }
+
+    public boolean hasGameEnded() {
+        return this.playerO.hasWon() || this.playerX.hasWon();
+    }
+
 }
