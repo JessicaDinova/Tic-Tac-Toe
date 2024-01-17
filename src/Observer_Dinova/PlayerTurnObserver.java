@@ -1,12 +1,16 @@
 package Observer_Dinova;
 
 import Command_Potocnak.Player;
+import Decorator_Potocnak.BaseDecorator;
+import Decorator_Potocnak.PlayerTurnDecorator;
 
 public class PlayerTurnObserver implements GameObserver {
     private Player currentPlayer;
+    private BaseDecorator turnDecorator;
 
     public PlayerTurnObserver(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        this.turnDecorator = new PlayerTurnDecorator(this.currentPlayer); 
     }
 
     
@@ -14,7 +18,8 @@ public class PlayerTurnObserver implements GameObserver {
     public void update(boolean hasGameEnded, Player player) {
         if (!hasGameEnded) {
             this.currentPlayer = player;
-            System.out.println("Player" + this.currentPlayer.getPlayerSymbol() + " 's turn");
+            turnDecorator.setPlayer(this.currentPlayer);
+            turnDecorator.decorate();
         }
     }
     

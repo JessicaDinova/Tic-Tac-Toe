@@ -1,15 +1,20 @@
 package Observer_Dinova;
 
 import Command_Potocnak.Player;
+import Decorator_Potocnak.BaseDecorator;
+import Decorator_Potocnak.GameEndDecorator;
 
 public class GameEndObserver implements GameObserver {
+    private BaseDecorator gameOverDecorator = new GameEndDecorator();
 
     @Override
     public void update(boolean hasGameEnded, Player player) {
         if (hasGameEnded == true && player != null) {
-            System.out.println("Player" + player.getPlayerSymbol() + "has WON GG");
+            gameOverDecorator.setPlayer(player);
+            gameOverDecorator.decorate();
         } else if (hasGameEnded == true && player == null) {
-            System.out.println("Game over! It's a tie!");
+            gameOverDecorator.setPlayer(null);
+            gameOverDecorator.decorate();;
         }
     }
     

@@ -9,6 +9,8 @@ import Observer_Dinova.GameEndObserver;
 import Observer_Dinova.GameObserver;
 import Observer_Dinova.PlayerTurnObserver;
 import Singleton_Dinova.GameManager;
+import Decorator_Potocnak.*;
+
 
 public class GameLoop {
     private GameManager gameManager;
@@ -16,6 +18,8 @@ public class GameLoop {
 
     private GameObserver turnObserver;
     private GameObserver gameEndObserver;
+
+    private BaseDecorator gameStartDecorator = new GameStartDecorator();
 
     private void setUpGame() {
         this.gameManager = GameManager.getGameInstance();
@@ -30,6 +34,7 @@ public class GameLoop {
 
     public void runGame() {
         setUpGame();
+        gameStartDecorator.decorate();
         Scanner input = new Scanner(System.in);
         int round = 0;
         boolean endGame = false;
