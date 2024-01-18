@@ -1,12 +1,16 @@
-# Tic-Tac-Toe
-It is simple Tic-Tac-Toe game that supports 2 players and classic 3x3 playground
+# Tic-Tac-Toe 
 
-The game includes the following design patterns
+## Design Patterns Overview
+This Tic-Tac-Toe game is a simple yet well-structured application that incorporates several design patterns to enhance its organization and flexibility. We have decided to use the following design patterns
 
 ## Creational
-> **Singleton** (managing the game state (only one instnce of the game)) -> **Jessica**
 
-The class that is responsible for the main game logic the `GameManager` is a singelton as only one incstance of the class can exist at any givvern momenr
+
+### Singleton (Jessica)
+
+The Singleton pattern ensures that there is only one instance of the `GameManager` class at any given time. This is achieved by having a private constructor and a static method `getGameInstance` that returns the existing instance or creates a new one if none exists.
+
+This ensures that there is only one game active at any given moment
 
 ```java
 private GameManager() {
@@ -22,133 +26,115 @@ public static GameManager getGameInstance() {
 }
 ```
 
-> **Factory** (instances of players X and O) -> **Simon**
+### Factory (Simon)
 
-Class for creating instances of the players X and O there is one base class and 2 classes that are inheriting the base class are concrete factories 
+The Factory pattern is implemented through the `PlayerFactory` and its concrete subclasses (`PlayerXFactory` and `PlayerOFactory`). It provides a way to create instances of players X and O.
 
 ```java
 public abstract class PlayerFactory {
     public abstract Player createPlayer();
 }
 
-@Override
-public Player createPlayer() {
-    return new Player('O');
+public class PlayerXFactory extends PlayerFactory {
+    @Override
+    public Player createPlayer() {
+        return new Player('X');
+    }
 }
 ```
 
 ## Structural
-> **Decorator** (enhance display of the game board with messages (basic console with decorative info)) -> **Simon**
-Decorator that is respnsible for additonal text in the console 
 
-It is composed out of base class called BaseDecorator
+### Decorator (Simon)
 
-And derived concrete classes
+The Decorator pattern enhances the display of the game board by adding additional text messages. The `BaseDecorator` serves as the base class, and concrete decorators, like `GameStartDecorator`, add specific information to the console output.
 
-Main goal of the decorator is to execute additional prints to the standart input 
-
-Such is player's turn on game winning messages
-
-```java 
+```java
 public class BaseDecorator {
-    private Player player = null;
-
-    public void setPlayer(Player player){
-        this.player = player;
-    }
-
-    public Player getPlayer(){
-        return this.player;
-    }
-
-    public void decorate(){};
+    
 }
 
-
-    public GameStartDecorator(){
-        
-    }
-    @Override
+public class GameStartDecorator extends BaseDecorator {
+        @Override
     public void decorate() {
-        String border ="+---------------------------+";
-        String line1 = "|  WELCOME to Tic Tac Toe   |";
-        String line2 = "|                           |";
-        String line3 = "|                           |";
-        String line4 = "|     Get ready to play     |";
-        String line5 = "+---------------------------+";
+        if (this.getPlayer()!= null) {
+            String border = "+--------------------------+";
+            String line1 = "|   Player " + this.getPlayer().getPlayerSymbol() + " has WON!!!    |";
+            String line2 = "|           GG!            |";
+            String line3 = "+--------------------------+";
 
-        System.out.println(border);
-        System.out.println(line1);
-        System.out.println(line2);
-        System.out.println(line3);
-        System.out.println(line4);
-        System.out.println(line5);
+            System.out.println(border);
+            System.out.println(line1);
+            System.out.println(line2);
+            System.out.println(line3);
+        }
+        else{
+            String border = "+-----------------------+";
+            String line1 = "|       IT IS A TIE      |";
+            String line2 = "+------------------------+";
+            
+            System.out.println(border);
+            System.out.println(line1);
+            System.out.println(line2);
+        }
+
     }
 }
 ```
 
+### Composite (Jessica)
 
->**Composite**(representing the game board and individual cells) -> **Jessica**
-Composite has the three structure where leaf is a single game cell and the whole tree is the Game bord 
+The Composite pattern is employed to represent the game board and individual cells. The `GameBoard` class acts as the composite, containing an `ArrayList` of `GameCells`, allowing for a unified treatment of both individual cells and the entire board. With the single draw call
 
 ```java
 public class GameBoard implements BoardComponent {
     private ArrayList<BoardComponent> gameCells = new ArrayList<BoardComponent>();
-    
+}
 
-    public GameBoard(int size) {
-        for (int i = 0; i < size; i++) {
-            gameCells.add(new GameCell());
-        }
-    }
+@Override
+public void display() {
+    System.out.print("| " + this.cellValue + " |");
+} 
 ```
 
-
 ## Behavioral
->**Observer** (notify players about the state changes(moves of the player)) -> **Jessica**
-Observer design pattern is observing changes made to different objects in the game or game state itself 
 
-It will notify all of the subscirbes such as playe and game board about certain changes 
+### Observer (Jessica)
 
-It is composed of the interface and derived classes 
+The Observer pattern is used to notify players about state changes, such as moves made by other players. The `GameObserver` interface is implemented by both players and the game board, ensuring that they are notified of relevant changes.
 
 ```java
 public interface GameObserver {
     public void update(boolean hasGameEnded, Player player);
 }
-```
 
-```java
 @Override
 public void update(boolean hasGameEnded, Player player) {
-    if (!hasGameEnded) {
-        this.currentPlayer = player;
-        turnDecorator.setPlayer(this.currentPlayer);
-        turnDecorator.decorate();
+    if (hasGameEnded == true && player != null) {
+        gameOverDecorator.setPlayer(player);
+        gameOverDecorator.decorate();
+    } else if (hasGameEnded == true && player == null) {
+        gameOverDecorator.setPlayer(null);
+        gameOverDecorator.decorate();;
     }
 }
 ```
 
->**Command** (moves of players) -> **Simon**
+### Command (Simon)
 
-Command is responsible for executing palyer movements it can do player movement withing itself 
-
-It is composed out of the base interface 'Command'
-and concret classes derive from this interface 
-
-
-The invoker is the player class as it is a player who is making the moves, hence executing move commnad
+The Command pattern handles player moves, encapsulating each move as a command. That can be exectued by themselfs
 
 ```java
 public interface Command {
     public void execute();
 }
-```
 
-```java
-@Override
-public void execute() {
-    this.gameBoard.addPlayedMove(index);
-    gameBoard.setCellValue(index-1, playerSymbol);       
+public class MoveCommand implements Command {
+    @Overwrite
+    public void execute() {
+        this.gameBoard.addPlayedMove(index);
+        gameBoard.setCellValue(index-1, playerSymbol);  
+    }
 }
 ```
+
