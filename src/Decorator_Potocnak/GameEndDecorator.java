@@ -8,10 +8,10 @@ public class GameEndDecorator extends BaseDecorator{
     @Override
     public void decorate() {
         if (this.getPlayer()!= null) {
-            String border = "+--------------------------+";
-            String line1 = "|   Player " + this.getPlayer().getPlayerSymbol() + " has WON!!!    |";
-            String line2 = "|           GG!            |";
-            String line3 = "+--------------------------+";
+            String border = "     +---------------------------+";
+            String line1 = "     |    Player " + this.getPlayer().getPlayerSymbol() + " has WON!!!    |";
+            String line2 = "     |            GG!            |";
+            String line3 = "     +---------------------------+";
 
             System.out.println(border);
             System.out.println(line1);
@@ -19,9 +19,9 @@ public class GameEndDecorator extends BaseDecorator{
             System.out.println(line3);
         }
         else{
-            String border = "+-----------------------+";
-            String line1 = "|       IT IS A TIE      |";
-            String line2 = "+------------------------+";
+            String border = "     +---------------------------+";
+            String line1 = "     |        It is a TIE        |";
+            String line2 = "     +---------------------------+";
             
             System.out.println(border);
             System.out.println(line1);
