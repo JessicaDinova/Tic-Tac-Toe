@@ -47,14 +47,14 @@ public class PlayerXFactory extends PlayerFactory {
 
 ### Decorator (Simon)
 
-The Decorator pattern enhances the display of the game board by adding additional text messages. The `BaseDecorator` serves as the base class, and concrete decorators, like `GameStartDecorator`, add specific information to the console output.
+The Decorator pattern enhances the display of the game board by adding additional text messages. The `BaseDecorator` serves as the base class, and concrete decorators, like `GameEndDecorator`, add specific information to the console output.
 
 ```java
 public class BaseDecorator {
     
 }
 
-public class GameStartDecorator extends BaseDecorator {
+public class GameEndDecorator extends BaseDecorator {
         @Override
     public void decorate() {
         if (this.getPlayer()!= null) {
@@ -89,40 +89,59 @@ The Composite pattern is employed to represent the game board and individual cel
 ```java
 public class GameBoard implements BoardComponent {
     private ArrayList<BoardComponent> gameCells = new ArrayList<BoardComponent>();
+
+    @Override
+    public void display() {
+        System.out.println(" ---  ---  ---\t\t ---  ---  ---");
+        for (int i = 0; i < gameCells.size(); i++) {
+            ((GameCell) gameCells.get(i)).display();
+            if ((i + 1) % 3 == 0 && (i < gameCells.size())) {
+                System.out.print("\t\t| " + (i - 1) + " || " + i + " || " + (i + 1) + " |");
+                System.out.println("\n ---  ---  ---\t\t ---  ---  ---");
+            }
+        }
+    }
 }
 
-@Override
-public void display() {
-    System.out.print("| " + this.cellValue + " |");
-} 
+public class GameCell implements BoardComponent {
+{
+    @Override
+    public void display() {
+        System.out.print("| " + this.cellValue + " |");
+    } 
+}
 ```
 
 ## Behavioral
 
 ### Observer (Jessica)
 
-The Observer pattern is used to notify players about state changes, such as moves made by other players. The `GameObserver` interface is implemented by both players and the game board, ensuring that they are notified of relevant changes.
+The Observer pattern is used to notify players about state changes, such as moves made by other players. The `GameObserver` interface is implemented by subscribers to be notified about various changes within the game logic 
 
 ```java
 public interface GameObserver {
     public void update(boolean hasGameEnded, Player player);
 }
 
-@Override
-public void update(boolean hasGameEnded, Player player) {
-    if (hasGameEnded == true && player != null) {
-        gameOverDecorator.setPlayer(player);
-        gameOverDecorator.decorate();
-    } else if (hasGameEnded == true && player == null) {
-        gameOverDecorator.setPlayer(null);
-        gameOverDecorator.decorate();;
+class GameEndObserver implements GameObserver{
+    @Override
+    public void update(boolean hasGameEnded, Player player) {
+        if (hasGameEnded == true && player != null) {
+            gameOverDecorator.setPlayer(player);
+            gameOverDecorator.decorate();
+        } else if (hasGameEnded == true && player == null) {
+            gameOverDecorator.setPlayer(null);
+            gameOverDecorator.decorate();;
+        }
     }
 }
 ```
 
 ### Command (Simon)
 
-The Command pattern handles player moves, encapsulating each move as a command. That can be exectued by themselfs
+The Command pattern handles player moves, encapsulating each move as a command. That can be exectued without dependency on another object / class 
+
+The command has an invoker which in this case is the player.
 
 ```java
 public interface Command {
